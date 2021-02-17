@@ -24,22 +24,29 @@ auto qsort_dur(T & container) {
 
 int main() {
 
-	std::array<int, 10> my_array = { 9,8,7,6,5,4,3,2,1,0 };
+	std::array<int, 10000> my_array = {0};
 	std::vector<int> my_vector(10);
 	std::deque <int> my_deque(10);
 	std::list<int> my_list = { 9,8,7,6,5,4,3,2,1,0 };
 	std::forward_list < int > my_forward_list = { 9,8,7,6,5,4,3,2,1,0 };
 
+	for (std::size_t i = 0; i < my_vector.size(); ++i)
+	{
+		my_vector[i] = my_vector.size() - i;
+	}
+
+	my_array[5000] = 1;
 
 	auto now1 = std::chrono::system_clock::now();
 	std::sort(my_array.begin(),my_array.end());
 	auto end1 = std::chrono::system_clock::now();
 
-	/*
+	
 	auto now2 = std::chrono::system_clock::now();
 	std::sort(my_vector.begin(), my_vector.end());
 	auto end2 = std::chrono::system_clock::now();
 
+	/*
 	auto now3 = std::chrono::system_clock::now();
 	std::sort(my_deque.begin(), my_deque.end());
 	auto end3 = std::chrono::system_clock::now();
@@ -60,6 +67,8 @@ int main() {
 	/*std::cout << qsort_dur(my_array) << std::endl;*/
 
 	std::cout << elapse1.count() << std::endl;
+
+	return 0;
 
 }
 
