@@ -13,60 +13,42 @@
 
 template <typename T>
 auto qsort_dur(T & container) {
+
 	auto now = std::chrono::system_clock::now();
 	std::sort(container.begin(), container.end());
 	auto end = std::chrono::system_clock::now();
 
-	std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - now).count();
+	return std::chrono::duration_cast<std::chrono::milliseconds>(end - now).count();
+}
+
+template <typename T>
+auto self_dur(T & container){
+
+	auto now = std::chrono::system_clock::now();
+	container.sort();
+	auto end = std::chrono::system_clock::now();
+
 	return std::chrono::duration_cast<std::chrono::milliseconds>(end - now).count();
 }
 
 
+
 int main() {
 
-	std::array<int, 10000> my_array = {0};
-	std::vector<int> my_vector(10);
-	std::deque <int> my_deque(10);
-	std::list<int> my_list = { 9,8,7,6,5,4,3,2,1,0 };
-	std::forward_list < int > my_forward_list = { 9,8,7,6,5,4,3,2,1,0 };
+	const size_t N = 100000;
 
-	for (std::size_t i = 0; i < my_vector.size(); ++i)
-	{
-		my_vector[i] = my_vector.size() - i;
-	}
+	std::array<int, N> my_array = {0};
+	std::vector<int> my_vector(N);
+	std::deque <int> my_deque(N);
+	std::list<int> my_list(N);
+	std::forward_list < int > my_forward_list (N);
 
-	my_array[5000] = 1;
+	std::cout << "my_array " << qsort_dur(my_array) << std::endl;
+	std::cout << "my_vector " << qsort_dur(my_vector) << std::endl;
+	std::cout << "my_deque " << qsort_dur(my_deque) << std::endl;
+	std::cout << "my_list " << self_dur(my_list) << std::endl; 
+	std::cout << "my_forward_list " << self_dur(my_forward_list) << std::endl;
 
-	auto now1 = std::chrono::system_clock::now();
-	std::sort(my_array.begin(),my_array.end());
-	auto end1 = std::chrono::system_clock::now();
-
-	
-	auto now2 = std::chrono::system_clock::now();
-	std::sort(my_vector.begin(), my_vector.end());
-	auto end2 = std::chrono::system_clock::now();
-
-	/*
-	auto now3 = std::chrono::system_clock::now();
-	std::sort(my_deque.begin(), my_deque.end());
-	auto end3 = std::chrono::system_clock::now();
-
-	auto now4 = std::chrono::system_clock::now();
-	std::sort(my_list.begin(), my_list.end());
-	auto end4 = std::chrono::system_clock::now();
-
-	auto now5 = std::chrono::system_clock::now();
-	std::sort(my_forward_list.begin(), my_forward_list.end());
-	auto end5 = std::chrono::system_clock::now();
-	*/
-
-
-	auto elapse1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - now1);
-	//auto elapse2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - now2);
-
-	/*std::cout << qsort_dur(my_array) << std::endl;*/
-
-	std::cout << elapse1.count() << std::endl;
 
 	return 0;
 
